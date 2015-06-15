@@ -19,10 +19,11 @@ wechat-spring-mvc is [wechat enterprise api](qydev.weixin.qq.com/wiki/index.php)
 
 ### DB Dump
 
-https://github.com/PRVALUE/wechat-spring-mvc/src/main/resources/DB/init.sql
+https://github.com/PRVALUE/wechat-spring-mvc/src/main/resources/DB/init.sql  
+Note: In MySQL, database and table names are not case sensitive in Windows, and case sensitive in most varieties of Unix(except in OS X).
 
 ### Configuration
-MySQL connection:change the dataSource bean definition in src/main/webapp/WEB-INF/spring/appSerlvet/servlet-context.xml according to your needs.
+MySQL connection:change the dataSource bean definition in src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml according to your needs.
 
 Name    | Value
 --------|------
