@@ -19,7 +19,7 @@ wechat-spring-mvc is [wechat enterprise api](qydev.weixin.qq.com/wiki/index.php)
 
 ### DB Dump
 
-https://github.com/PRVALUE/wechat-spring-mvc/src/main/resources/DB/init.sql  
+[Table creation script](https://github.com/PRVALUE/wechat-spring-mvc/tree/master/src/main/resources/DB/init.sql)  
 Note: In MySQL, database and table names are not case sensitive in Windows, and case sensitive in most varieties of Unix(except in OS X).
 
 ### Configuration
@@ -35,9 +35,9 @@ password|
 
 Component | Path
 ----------|-----
-model | [com/prvalue/wechat/model](https://github.com/PRVALUE/wechat-spring-mvc/src/main/java/com/prvalue/wechat/model/)
-view | [webapp/WEB-INF/views](https://github.com/PRVALUE/wechat-spring-mvc/src/main/webapp/WEB-INF/views)
-controller | [com/prvalue/wechat/controller](https://github.com/PRVALUE/wechat-spring-mvc/src/main/java/com/prvalue/wechat/controller/)
+model | [com/prvalue/wechat/model](https://github.com/PRVALUE/wechat-spring-mvc/tree/master/src/main/java/com/prvalue/wechat/model/)
+view | [webapp/WEB-INF/views](https://github.com/PRVALUE/wechat-spring-mvc/tree/master/src/main/webapp/WEB-INF/views)
+controller | [com/prvalue/wechat/controller](https://github.com/PRVALUE/wechat-spring-mvc/tree/master/src/main/java/com/prvalue/wechat/controller/)
 
 ### Deploy Process
 
