@@ -1,4 +1,4 @@
-package com.prvalue.wechat;
+package com.prvalue.wechat.controller;
 
 import com.prvalue.wechat.model.Person;
 import com.prvalue.wechat.service.PersonService;
