@@ -1,0 +1,16 @@
+package com.prvalue.wechat.dao;
+
+import com.prvalue.wechat.model.Person;
+import java.util.List;
+
+/**
+ *
+ * @author Heisaman
+ */
+public interface PersonDAO {
+    public void addPerson(Person p);
+    public void updatePerson(Person p);
+    public List<Person> listPersons();
+    public Person getPersonById(int id);
+    public void removePerson(int id);
+}
