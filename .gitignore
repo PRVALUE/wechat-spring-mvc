@@ -7,6 +7,13 @@ nbdist/
 nbactions.xml
 nb-configuration.xml
 
+# intelliJ IDEA specific #
+.idea/
+wechat-spring-mvc.iml
+
+# glassfish specific #
+src/main/webapp/WEB-INF/glassfish-web.xml
+
 *.class
 
 # Package Files #
