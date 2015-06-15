@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : user
     Created on : 2015-6-9, 17:57:27
     Author     : Heisaman
@@ -38,7 +38,7 @@
         <td>
             <form:input path="id" readonly="true" size="8"  disabled="true" />
             <form:hidden path="id" />
-        </td> 
+        </td>
     </tr>
     </c:if>
     <tr>
@@ -49,7 +49,7 @@
         </td>
         <td>
             <form:input path="name" />
-        </td> 
+        </td>
     </tr>
     <tr>
         <td>
@@ -73,7 +73,7 @@
             </c:if>
         </td>
     </tr>
-</table>  
+</table>
 </form:form>
 <br>
 <h3>用户列表</h3>
