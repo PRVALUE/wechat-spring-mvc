@@ -32,6 +32,8 @@
             value="jdbc:mysql://localhost:3306/TestDB" />
         <beans:property name="username" value="root" />
         <beans:property name="password" value="" />
+        <beans:property name="validationQuery" value="SELECT 1"/>
+        <beans:property name="testOnBorrow" value="true"/>
     </beans:bean>
 
     <!-- Hibernate 4 SessionFactory Bean definition -->
