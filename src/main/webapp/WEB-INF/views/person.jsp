@@ -114,15 +114,15 @@
  
 	<script>
 		function formSubmit() {
-			document.getElementById("logoutForm").submit();
+                    document.getElementById("logoutForm").submit();
 		}
 	</script>
  
 	<c:if test="${pageContext.request.userPrincipal.name != null}">
-		<h2>
-			Welcome : ${pageContext.request.userPrincipal.name} | <a
-				href="javascript:formSubmit()"> Logout</a>
-		</h2>
+            <h2>
+                    Welcome : ${pageContext.request.userPrincipal.name} | <a
+                            href="javascript:formSubmit()"> Logout</a>
+            </h2>
 	</c:if>
 </div>
 </body>

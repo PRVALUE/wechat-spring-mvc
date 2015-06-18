@@ -24,6 +24,7 @@
 		<authentication-provider>
 		  <user-service>
 			<user name="yuwei" password="123456" authorities="ROLE_USER" />
+                        <user name="joe" password="123456" authorities="ROLE_USER" />
 		  </user-service>
 		</authentication-provider>
 	</authentication-manager>

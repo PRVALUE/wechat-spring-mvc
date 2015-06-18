@@ -1,3 +1,4 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page session="true"%>
 <html>
@@ -32,12 +33,13 @@
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
 	border: 1px solid #000;
+        box-shadow: 10px 10px 5px;
 }
 </style>
 </head>
 <body onload='document.loginForm.username.focus();'>
-
-	<h1>Sumo</h1>
+    <div align='center'>
+	<h1>Sumo企业号</h1>
 
 	<div id="login-box">
 
@@ -73,6 +75,6 @@
                  name="${_csrf.parameterName}" value="${_csrf.token}" />
             </form>
 	</div>
-
+    </div>
 </body>
 </html>

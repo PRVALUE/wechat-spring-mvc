@@ -2,6 +2,7 @@ package com.prvalue.wechat.controller;
 
 import com.prvalue.wechat.model.Person;
 import com.prvalue.wechat.service.PersonService;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -11,12 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 /**
  *
  * @author Heisaman
  */
 @Controller
+@SessionAttributes("personObj")
 public class PersonController {
 
     private PersonService personService;
@@ -76,5 +79,24 @@ public class PersonController {
             model.addAttribute("msg", "You've been logged out successfully.");
         }
         return "login";
+    }
+
+    @RequestMapping(value = "/oauth2", method = RequestMethod.GET)
+    public String oauth2(
+            @RequestParam(value = "code", required = true) String code,
+            @RequestParam(value = "state", required = true) String state, Model model) {
+        if (code != null && state.equals("STATE")) {
+            Person person = new Person();
+            model.addAttribute("personObj", person);
+        }
+
+        return "oauth2";
+    }
+
+    @RequestMapping(value = "/formSubmitted", method = RequestMethod.GET)
+    public String formSubmitted(
+            @RequestParam(value = "name", required = true) String name, Model model) {
+
+        return "formSubmitted";
     }
 }
