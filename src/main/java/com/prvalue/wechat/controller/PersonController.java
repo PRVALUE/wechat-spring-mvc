@@ -1,8 +1,18 @@
 package com.prvalue.wechat.controller;
 
 import com.prvalue.wechat.model.Person;
+import com.prvalue.wechat.service.CoreService;
 import com.prvalue.wechat.service.PersonService;
-import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -22,6 +32,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @SessionAttributes("personObj")
 public class PersonController {
 
+    private static final Logger logger = LoggerFactory.getLogger(PersonController.class);
     private PersonService personService;
 
     @Autowired(required=true)
@@ -67,6 +78,15 @@ public class PersonController {
         return "person";
     }
 
+    @RequestMapping("/approve/{userid}")
+    public String approvePerson(@PathVariable("userid") String userid, Model model){
+        String access_token = CoreService.getDefaultAccessToken();
+        String url = CoreService.baseUrl+"user/authsucc?access_token="+access_token+"&userid="+userid;
+        sendWechatHttpRequest(url);
+        //model.addAttribute("listPersons", this.personService.listPersons());
+        return "redirect:/persons";
+    }
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(
             @RequestParam(value = "error", required = false) String error,
@@ -83,20 +103,64 @@ public class PersonController {
 
     @RequestMapping(value = "/oauth2", method = RequestMethod.GET)
     public String oauth2(
-            @RequestParam(value = "code", required = true) String code,
-            @RequestParam(value = "state", required = true) String state, Model model) {
-        if (code != null && state.equals("STATE")) {
-            Person person = new Person();
-            model.addAttribute("personObj", person);
+            @RequestParam(value = "code", required = true) String code, Model model) {
+        if (code != null) {
+            Person p = new Person();
+            String access_token = CoreService.getDefaultAccessToken();
+            String url = CoreService.baseUrl+"user/getuserinfo?access_token="+access_token+"&code="+code+"&agentid=0";
+            JSONObject json = sendWechatHttpRequest(url);
+            logger.info(json.toString());
+            try {
+                String userId = String.valueOf(json.get("UserId"));
+                p.setUserid(userId);
+                url = CoreService.baseUrl+"user/get?access_token="+access_token+"&userid="+userId;
+                json = sendWechatHttpRequest(url);
+                if(String.valueOf(json.get("errmsg")).equals("ok")) {
+                    String name = String.valueOf(json.get("name"));
+                    model.addAttribute("name", name);
+                    p.setName(name);
+                    p.setPosition(String.valueOf(json.get("position")));
+                    p.setGender(Integer.valueOf((String)json.get("gender")));
+                    p.setEmail(String.valueOf(json.get("email")));
+                    p.setWeixinid(String.valueOf(json.get("weixinid")));
+                    p.setAvatar(String.valueOf(json.get("avatar")));
+                    p.setStatus(Integer.valueOf((String)json.get("status")));
+                } else {
+                    model.addAttribute("error", "Sorry, we can't get your information!");
+                }
+            } catch (JSONException e){
+                e.printStackTrace();
+            }
+            this.personService.addPerson(p);
+            model.addAttribute("personObj", p);
         }
-
         return "oauth2";
     }
 
     @RequestMapping(value = "/formSubmitted", method = RequestMethod.GET)
     public String formSubmitted(
+            @ModelAttribute("personObj") Person p,
             @RequestParam(value = "name", required = true) String name, Model model) {
-
+        p.setManager(name);
+        this.personService.updatePerson(p);
         return "formSubmitted";
+    }
+
+    public JSONObject sendWechatHttpRequest(String url) {
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        JSONObject jsonObj = null;
+        try {
+            HttpGet request = new HttpGet(url);
+            request.addHeader("content-type", "application/x-www-form-urlencoded");
+            HttpResponse response = httpClient.execute(request);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
+            String json = reader.readLine();
+            jsonObj = new JSONObject(json);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            httpClient.getConnectionManager().shutdown();
+        }
+        return jsonObj;
     }
 }

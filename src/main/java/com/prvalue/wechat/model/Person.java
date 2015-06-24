@@ -29,7 +29,7 @@ public class Person {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name="id", referencedColumnName="departmentid")
+    @JoinColumn(name="department_id", referencedColumnName="id")
     private Department department;
 
     @Column(name="position")
@@ -49,6 +49,9 @@ public class Person {
 
     @Column(name="status")
     private int status;
+
+    @Column(name="manager")
+    private String manager;
 
     public int getId() {
         return id;
@@ -128,6 +131,14 @@ public class Person {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getManager() {
+        return manager;
+    }
+
+    public void setManager(String manager) {
+        this.manager = manager;
     }
 
     @Override

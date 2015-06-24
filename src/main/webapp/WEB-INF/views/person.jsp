@@ -4,7 +4,7 @@
     Author     : Heisaman
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
@@ -17,6 +17,7 @@
         .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#fff;}
         .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#f0f0f0;}
         .tg .tg-4eph{background-color:#f9f9f9}
+        .red {color: red}
     </style>
 </head>
 <body>
@@ -43,6 +44,16 @@
     </c:if>
     <tr>
         <td>
+            <form:label path="userid">
+                <spring:message text="UserId"/>
+            </form:label>
+        </td>
+        <td>
+            <form:input path="userid" />
+        </td>
+    </tr>
+    <tr>
+        <td>
             <form:label path="name">
                 <spring:message text="Name"/>
             </form:label>
@@ -53,12 +64,22 @@
     </tr>
     <tr>
         <td>
-            <form:label path="country">
-                <spring:message text="Country"/>
+            <form:label path="position">
+                <spring:message text="Position"/>
             </form:label>
         </td>
         <td>
-            <form:input path="country" />
+            <form:input path="position" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <form:label path="status">
+                <spring:message text="Status"/>
+            </form:label>
+        </td>
+        <td>
+            <form:input path="status" />
         </td>
     </tr>
     <tr>
@@ -80,24 +101,35 @@
 <c:if test="${!empty listPersons}">
     <table class="tg">
     <tr>
-        <th width="80">用户ID</th>
+        <th width="80">ID</th>
         <th width="120">姓名</th>
-        <th width="120">帐号</th>
+        <th width="120">性别</th>
         <th width="120">职位</th>
-        <th width="180">手机</th>
-        <th width="200">邮箱</th>
-        <th width="60">Edit</th>
+        <th width="120">部门</th>
+        <th width="180">邮箱</th>
+        <th width="200">微信号</th>
+        <th width="60">状态</th>
+        <th width="60">主管姓名</th>
+        <th width="60">通过验证</th>
         <th width="60">Delete</th>
     </tr>
     <c:forEach items="${listPersons}" var="person">
-        <tr>
+        <c:if test="${person.status == 2}">
+            <tr class="red">
+        </c:if>
+        <c:if test="${person.status != 2}">
+            <tr>
+        </c:if>
             <td>${person.id}</td>
             <td>${person.name}</td>
-            <td>${person.country}</td>
+            <td>${person.gender}</td>
+            <td>${person.position}</td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td><a href="<c:url value='/edit/${person.id}' />" >Edit</a></td>
+            <td>${person.email}</td>
+            <td>${person.weixinid}</td>
+            <td>${person.status}</td>
+            <td>${person.manager}</td>
+            <td><a href="<c:url value='/approve/${person.userid}' />" >Approve</td>
             <td><a href="<c:url value='/remove/${person.id}' />" >Delete</a></td>
         </tr>
     </c:forEach>
