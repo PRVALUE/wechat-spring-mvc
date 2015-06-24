@@ -3,11 +3,11 @@ wechat-spring-mvc
 
 ## Overview
 
-wechat-spring-mvc is [wechat enterprise api](qydev.weixin.qq.com/wiki/index.php)  project built on top of Spring MVC framework.
+wechat-spring-mvc is [wechat enterprise api](http://qydev.weixin.qq.com/wiki/index.php)  project built on top of Spring MVC framework.
 
 ## Staging Environment: 
 
- - address: [wechat-spring-mvc](http://hsbc-staging.prvalue.cn:8080/wechat-spring-mvc/persons)
+ - address: [wechat-spring-mvc](http://hsbc-staging.prvalue.cn/wechat-spring-mvc/persons)
 
 ## Get Start!
 
