@@ -10,6 +10,7 @@ CREATE TABLE `PERSON` (
     `department_id` int(11) DEFAULT NULL,
     `position` varchar(50) DEFAULT NULL,
     `gender` int(2) DEFAULT 1,
+    `phone` varchar(50) DEFAULT NULL,
     `email` varchar(50) DEFAULT NULL,
     `weixinid` varchar(50) DEFAULT NULL,
     `avatar` varchar(200) DEFAULT NULL,

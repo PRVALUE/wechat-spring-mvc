@@ -9,6 +9,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page session="true" %>
+<%@ page import="com.prvalue.wechat.utils.Constants" %>
 <html>
 <head>
     <title>Person Page</title>
@@ -101,13 +102,14 @@
 <c:if test="${!empty listPersons}">
     <table class="tg">
     <tr>
-        <th width="80">ID</th>
+        <th width="60">ID</th>
+        <th width="120">头像</th>
         <th width="120">姓名</th>
         <th width="120">性别</th>
         <th width="120">职位</th>
         <th width="120">部门</th>
+        <th width="150">电话</th>
         <th width="180">邮箱</th>
-        <th width="200">微信号</th>
         <th width="60">状态</th>
         <th width="60">主管姓名</th>
         <th width="60">通过验证</th>
@@ -121,15 +123,18 @@
             <tr>
         </c:if>
             <td>${person.id}</td>
+            <td><img src="${person.avatar}0" onerror="this.src='https://res.mail.qq.com/bizmp/zh_CN/images/dev/icon_avatar_default.png'" height=50 width=50></td>
             <td>${person.name}</td>
-            <td>${person.gender}</td>
+            <c:set var="gender" value="${person.gender}"/>
+            <td><%=Constants.Gender.values()[(Integer)pageContext.getAttribute("gender")].getGender()%></td>
             <td>${person.position}</td>
             <td></td>
+            <td>${person.phone}</td>
             <td>${person.email}</td>
-            <td>${person.weixinid}</td>
-            <td>${person.status}</td>
+            <c:set var="status" value="${person.status}"/>
+            <td><%=Constants.Status.values()[(Integer)pageContext.getAttribute("status")-1].getStatus()%></td>
             <td>${person.manager}</td>
-            <td><a href="<c:url value='/approve/${person.userid}' />" >Approve</td>
+            <td><a href="<c:url value='/approve/${person.id}' />" >Approve</td>
             <td><a href="<c:url value='/remove/${person.id}' />" >Delete</a></td>
         </tr>
     </c:forEach>

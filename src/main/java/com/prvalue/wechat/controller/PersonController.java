@@ -78,12 +78,20 @@ public class PersonController {
         return "person";
     }
 
-    @RequestMapping("/approve/{userid}")
-    public String approvePerson(@PathVariable("userid") String userid, Model model){
+    @RequestMapping("/approve/{id}")
+    public String approvePerson(@PathVariable("id") int id, Model model){
         String access_token = CoreService.getDefaultAccessToken();
-        String url = CoreService.baseUrl+"user/authsucc?access_token="+access_token+"&userid="+userid;
-        sendWechatHttpRequest(url);
-        //model.addAttribute("listPersons", this.personService.listPersons());
+        Person p = this.personService.getPersonById(id);
+        String url = CoreService.baseUrl+"user/authsucc?access_token="+access_token+"&userid="+p.getUserid();
+        JSONObject json = sendWechatHttpRequest(url);
+        try {
+            if(String.valueOf(json.get("errmsg")).equals("ok")) {
+                p.setStatus(1);
+                this.personService.updatePerson(p);
+            }
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
         return "redirect:/persons";
     }
 
@@ -122,13 +130,18 @@ public class PersonController {
                     p.setName(name);
                     p.setPosition(String.valueOf(json.get("position")));
                     p.setGender(Integer.valueOf((String)json.get("gender")));
+                    if(json.has("mobile")) {
+                        p.setPhone(String.valueOf(json.get("mobile")));
+                    }
                     if(json.has("email")) {
                         p.setEmail(String.valueOf(json.get("email")));
                     }
                     if(json.has("weixinid")) {
                         p.setWeixinid(String.valueOf(json.get("weixinid")));
                     }
-                    p.setAvatar(String.valueOf(json.get("avatar")));
+                    if(json.has("avatar")) {
+                        p.setAvatar(String.valueOf(json.get("avatar")));
+                    }
                     p.setStatus((Integer)json.get("status"));
                 } else {
                     model.addAttribute("error", "Sorry, we can't get your information!");

@@ -38,6 +38,9 @@ public class Person {
     @Column(name="gender")
     private int gender;
 
+    @Column(name="phone")
+    private String phone;
+
     @Column(name="email")
     private String email;
 
@@ -99,6 +102,14 @@ public class Person {
 
     public void setGender(int gender) {
         this.gender = gender;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getEmail() {
