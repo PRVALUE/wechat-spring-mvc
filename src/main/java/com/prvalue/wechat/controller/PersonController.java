@@ -115,16 +115,21 @@ public class PersonController {
                 p.setUserid(userId);
                 url = CoreService.baseUrl+"user/get?access_token="+access_token+"&userid="+userId;
                 json = sendWechatHttpRequest(url);
+                logger.info(json.toString());
                 if(String.valueOf(json.get("errmsg")).equals("ok")) {
                     String name = String.valueOf(json.get("name"));
                     model.addAttribute("name", name);
                     p.setName(name);
                     p.setPosition(String.valueOf(json.get("position")));
                     p.setGender(Integer.valueOf((String)json.get("gender")));
-                    p.setEmail(String.valueOf(json.get("email")));
-                    p.setWeixinid(String.valueOf(json.get("weixinid")));
+                    if(json.has("email")) {
+                        p.setEmail(String.valueOf(json.get("email")));
+                    }
+                    if(json.has("weixinid")) {
+                        p.setWeixinid(String.valueOf(json.get("weixinid")));
+                    }
                     p.setAvatar(String.valueOf(json.get("avatar")));
-                    p.setStatus(Integer.valueOf((String)json.get("status")));
+                    p.setStatus((Integer)json.get("status"));
                 } else {
                     model.addAttribute("error", "Sorry, we can't get your information!");
                 }
@@ -132,6 +137,7 @@ public class PersonController {
                 e.printStackTrace();
             }
             this.personService.addPerson(p);
+            logger.info(p.toString());
             model.addAttribute("personObj", p);
         }
         return "oauth2";
@@ -140,8 +146,8 @@ public class PersonController {
     @RequestMapping(value = "/formSubmitted", method = RequestMethod.GET)
     public String formSubmitted(
             @ModelAttribute("personObj") Person p,
-            @RequestParam(value = "name", required = true) String name, Model model) {
-        p.setManager(name);
+            @RequestParam(value = "manager", required = true) String manager, Model model) {
+        p.setManager(manager);
         this.personService.updatePerson(p);
         return "formSubmitted";
     }

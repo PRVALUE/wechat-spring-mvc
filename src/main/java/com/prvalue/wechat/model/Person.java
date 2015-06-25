@@ -143,6 +143,6 @@ public class Person {
 
     @Override
     public String toString(){
-        return "id="+id+", name="+name+", position="+position;
+        return "id="+id+", name="+name+", position="+position+", manager="+manager;
     }
 }

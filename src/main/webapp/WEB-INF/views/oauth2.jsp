@@ -41,7 +41,7 @@
         <c:if test="${not empty name}">
             <div class="msg">您好${name}，请填写您的主管姓名</div>
             <form action="<c:url value='formSubmitted' />" method='GET'>
-                <input type='text' name='name' value=''>
+                <input type='text' name='manager' value=''>
                 <input name="submit" type="submit" value="submit" />
             </form>
         </c:if>

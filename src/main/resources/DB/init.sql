@@ -12,7 +12,7 @@ CREATE TABLE `PERSON` (
     `gender` int(2) DEFAULT 1,
     `email` varchar(50) DEFAULT NULL,
     `weixinid` varchar(50) DEFAULT NULL,
-    `avatar` varchar(50) DEFAULT NULL,
+    `avatar` varchar(200) DEFAULT NULL,
     `status` int(2) DEFAULT 0,
     `manager` varchar(20) DEFAULT NULL,
     PRIMARY KEY (`id`),
