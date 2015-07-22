@@ -6,8 +6,10 @@ import com.prvalue.wechat.service.PersonService;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -90,7 +92,7 @@ public class PersonController {
                 this.personService.updatePerson(p);
             }
         } catch (JSONException e){
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return "redirect:/persons";
     }
@@ -147,7 +149,7 @@ public class PersonController {
                     model.addAttribute("error", "Sorry, we can't get your information!");
                 }
             } catch (JSONException e){
-                e.printStackTrace();
+                logger.error(e.getMessage());
             }
             this.personService.addPerson(p);
             logger.info(p.toString());
@@ -166,7 +168,7 @@ public class PersonController {
     }
 
     public JSONObject sendWechatHttpRequest(String url) {
-        HttpClient httpClient = HttpClientBuilder.create().build();
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         JSONObject jsonObj = null;
         try {
             HttpGet request = new HttpGet(url);
@@ -181,5 +183,24 @@ public class PersonController {
             httpClient.getConnectionManager().shutdown();
         }
         return jsonObj;
+    }
+
+    public void sendHttpPostRequest(String url){
+        JSONObject json = new JSONObject();
+        //json.put("someKey", "someValue");
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+
+        try {
+            HttpPost request = new HttpPost(url);
+            StringEntity params = new StringEntity(json.toString());
+            request.addHeader("content-type", "application/json");
+            request.setEntity(params);
+            httpClient.execute(request);
+        // handle response here...
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            httpClient.getConnectionManager().shutdown();
+        }
     }
 }

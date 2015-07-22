@@ -17,6 +17,9 @@ public class CoreService {
     public static final String baseUrl = "https://qyapi.weixin.qq.com/cgi-bin/";
     public static final String corpid = "wxe577618fe713e475";
     public static final String corpsecret = "-NNtJkVkLsdpTAXGmp5J2g9mknGPYnyBMU4BvlVo3l_yYYSGfZyyGk_rG9hI1b-z";
+    public static final String sToken = "UOCJDzA2bku9TEKUzLnBMGVM67";
+    public static final String sCorpID = "wxe577618fe713e475";
+    public static final String sEncodingAESKey = "BKa7REbgMlGiEjSAW564cLuAwvsrPoq2ycQwnxD1p2A";
 
     /*public static String displayEmployees(){
         StringBuilder builder = new StringBuilder();

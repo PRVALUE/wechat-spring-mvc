@@ -53,6 +53,6 @@
 
     <filter-mapping>
         <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/persons</url-pattern>
     </filter-mapping>
 </web-app>
