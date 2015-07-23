@@ -2,11 +2,19 @@ package com.prvalue.wechat.controller;
 
 import com.prvalue.wechat.encryption.AesException;
 import com.prvalue.wechat.encryption.WXBizMsgCrypt;
+import com.prvalue.wechat.model.Message;
 import com.prvalue.wechat.service.CoreService;
+import com.prvalue.wechat.service.MessageService;
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.Writer;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +31,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class MsgController {
 
     private static final Logger logger = LoggerFactory.getLogger(PersonController.class);
+    private MessageService messageService;
+
+    @Autowired(required=true)
+    @Qualifier(value="messageService")
+    public void setMessageService(MessageService ms){
+        this.messageService = ms;
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody void verifyURL(@RequestParam("msg_signature") String msgSig,
@@ -40,7 +55,7 @@ public class MsgController {
     }
 
     @RequestMapping(method=RequestMethod.POST)
-    public @ResponseBody void receiveMsg(@RequestParam("msg_signature") String msgSig,
+    public void receiveMsg(@RequestParam("msg_signature") String msgSig,
             @RequestParam("timestamp") String timeStamp,
             @RequestParam("nonce") String nonce,
             @RequestBody String body, Writer writer){
@@ -48,9 +63,15 @@ public class MsgController {
         try {
             WXBizMsgCrypt wxcpt = new WXBizMsgCrypt(CoreService.sToken, CoreService.sEncodingAESKey, CoreService.sCorpID);
             result = wxcpt.DecryptMsg(msgSig, timeStamp, nonce, body);
-            writer.write(result);
             logger.info(result);
-        } catch(AesException | IOException ex) {
+
+            JAXBContext jc = JAXBContext.newInstance(Message.class);
+
+            Unmarshaller unmarshaller = jc.createUnmarshaller();
+            Message msg = (Message) unmarshaller.unmarshal(new StringReader(result));
+
+            messageService.addMessage(msg);
+        } catch(AesException | JAXBException ex) {
             logger.error("AesException or IOException found: ", ex);
         }
     }

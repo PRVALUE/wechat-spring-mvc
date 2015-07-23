@@ -21,3 +21,20 @@ CREATE TABLE `PERSON` (
         REFERENCES DEPARTMENT(`id`)
         ON DELETE SET NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+CREATE TABLE `MESSAGE` (
+    `id` bigint(11) unsigned NOT NULL,
+    `to_user_name` varchar(50),
+    `from_user_name` varchar(50),
+    `create_time` bigint(11),
+    `msg_type` varchar(20),
+    `content` text,
+    `media_id` varchar(50),
+    `format` varchar(20),
+    `thumb_media_id` varchar(50),
+    `location_x` double,
+    `location_y` double,
+    `scale` int(4),
+    `label` varchar(30),
+    `agent_id` int(2),
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
