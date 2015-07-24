@@ -45,6 +45,7 @@
                 <beans:value>com.prvalue.wechat.model.Department</beans:value>
                 <beans:value>com.prvalue.wechat.model.Person</beans:value>
                 <beans:value>com.prvalue.wechat.model.Message</beans:value>
+                <beans:value>com.prvalue.wechat.model.Event</beans:value>
             </beans:list>
         </beans:property>
         <beans:property name="hibernateProperties">
@@ -62,12 +63,18 @@
     <beans:bean id="messageDAO" class="com.prvalue.wechat.dao.MessageDAOImpl">
         <beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </beans:bean>
+    <beans:bean id="eventDAO" class="com.prvalue.wechat.dao.EventDAOImpl">
+        <beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </beans:bean>
 
     <beans:bean id="personService" class="com.prvalue.wechat.service.PersonServiceImpl">
         <beans:property name="personDAO" ref="personDAO"></beans:property>
     </beans:bean>
     <beans:bean id="messageService" class="com.prvalue.wechat.service.MessageServiceImpl">
         <beans:property name="messageDAO" ref="messageDAO"></beans:property>
+    </beans:bean>
+    <beans:bean id="eventService" class="com.prvalue.wechat.service.EventServiceImpl">
+        <beans:property name="eventDAO" ref="eventDAO"></beans:property>
     </beans:bean>
     <context:component-scan base-package="com.prvalue.wechat" />
 

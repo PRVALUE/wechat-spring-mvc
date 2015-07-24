@@ -41,7 +41,7 @@ public class PersonDAOImpl implements PersonDAO {
     @Override
     public List<Person> listPersons() {
         Session session = this.sessionFactory.getCurrentSession();
-        List<Person> personsList = session.createQuery("from Person").list();
+        List<Person> personsList = session.createQuery("from PERSON").list();
         for(Person p : personsList){
             logger.info("Person List::"+p);
         }

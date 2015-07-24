@@ -2,8 +2,10 @@ package com.prvalue.wechat.controller;
 
 import com.prvalue.wechat.encryption.AesException;
 import com.prvalue.wechat.encryption.WXBizMsgCrypt;
+import com.prvalue.wechat.model.Event;
 import com.prvalue.wechat.model.Message;
 import com.prvalue.wechat.service.CoreService;
+import com.prvalue.wechat.service.EventService;
 import com.prvalue.wechat.service.MessageService;
 import java.io.IOException;
 import java.io.StringReader;
@@ -32,11 +34,18 @@ public class MsgController {
 
     private static final Logger logger = LoggerFactory.getLogger(PersonController.class);
     private MessageService messageService;
+    private EventService eventService;
 
     @Autowired(required=true)
     @Qualifier(value="messageService")
     public void setMessageService(MessageService ms){
         this.messageService = ms;
+    }
+
+    @Autowired(required=true)
+    @Qualifier(value="eventService")
+    public void setEventService(EventService es){
+        this.eventService = es;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -69,8 +78,16 @@ public class MsgController {
 
             Unmarshaller unmarshaller = jc.createUnmarshaller();
             Message msg = (Message) unmarshaller.unmarshal(new StringReader(result));
+            logger.info("ThumbMediaId of this msg: "+msg.getThumbMediaId());
 
-            messageService.addMessage(msg);
+            if (msg.getMsgType().equals("event")){
+                jc = JAXBContext.newInstance(Event.class);
+                unmarshaller = jc.createUnmarshaller();
+                Event event = (Event) unmarshaller.unmarshal(new StringReader(result));
+                eventService.addEvent(event);
+            } else {
+                messageService.addMessage(msg);
+            }
         } catch(AesException | JAXBException ex) {
             logger.error("AesException or IOException found: ", ex);
         }

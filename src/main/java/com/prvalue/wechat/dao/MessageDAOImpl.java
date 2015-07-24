@@ -41,7 +41,7 @@ public class MessageDAOImpl implements MessageDAO {
     @Override
     public List<Message> listMessages() {
         Session session = this.sessionFactory.getCurrentSession();
-        List<Message> msgsList = session.createQuery("from Message").list();
+        List<Message> msgsList = session.createQuery("from MESSAGE").list();
         for(Message m : msgsList){
             logger.info("Message List::"+m);
         }
