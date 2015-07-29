@@ -49,7 +49,7 @@ public class Event {
     @XmlElement(name = "Longitude")
     private double longitude;
 
-    @Column(name="precision")
+    @Column(name="geo_precision")
     @XmlElement(name = "Precision")
     private double precision;
 

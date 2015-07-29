@@ -46,7 +46,7 @@ CREATE TABLE `EVENTS` (
     `event` varchar(50),
     `latitude` double,
     `longitude` double,
-    `precision` double,
+    `geo_precision` double,
     `event_key` int(2),
     `agent_id` int(2),
     PRIMARY KEY (`id`)
