@@ -140,7 +140,7 @@
     </c:forEach>
     </table>
 </c:if>
-<c:url value="j_spring_security_logout" var="logoutUrl" />
+<c:url value="persons/j_spring_security_logout" var="logoutUrl" />
  
 	<!-- csrt for log out-->
 	<form action="${logoutUrl}" method="post" id="logoutForm">

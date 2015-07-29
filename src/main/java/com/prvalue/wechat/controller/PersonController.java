@@ -97,7 +97,7 @@ public class PersonController {
         return "redirect:/persons";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/persons/login", method = RequestMethod.GET)
     public String login(
             @RequestParam(value = "error", required = false) String error,
             @RequestParam(value = "logout", required = false) String logout, Model model) {
@@ -130,7 +130,9 @@ public class PersonController {
                     String name = String.valueOf(json.get("name"));
                     model.addAttribute("name", name);
                     p.setName(name);
-                    p.setPosition(String.valueOf(json.get("position")));
+                    if(json.has("position")) {
+                        p.setPosition(String.valueOf(json.get("position")));
+                    }
                     p.setGender(Integer.valueOf((String)json.get("gender")));
                     if(json.has("mobile")) {
                         p.setPhone(String.valueOf(json.get("mobile")));

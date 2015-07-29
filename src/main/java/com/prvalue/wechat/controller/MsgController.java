@@ -67,7 +67,7 @@ public class MsgController {
     public void receiveMsg(@RequestParam("msg_signature") String msgSig,
             @RequestParam("timestamp") String timeStamp,
             @RequestParam("nonce") String nonce,
-            @RequestBody String body, Writer writer){
+            @RequestBody String body){
         String result = null;
         try {
             WXBizMsgCrypt wxcpt = new WXBizMsgCrypt(CoreService.sToken, CoreService.sEncodingAESKey, CoreService.sCorpID);

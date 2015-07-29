@@ -11,7 +11,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>信息完善</title>
+        <title>信息认证</title>
         <style>
 .error {
 	padding: 15px;
